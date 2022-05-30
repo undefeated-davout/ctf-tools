@@ -1,4 +1,4 @@
-# 共通コマンド
+# Common
 
 ```bash
 # socat
