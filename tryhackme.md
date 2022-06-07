@@ -84,3 +84,8 @@ netstat
 # net系コマンド
 net [user | localgroup | use | share | session]
 ```
+
+## 悪意IP検索
+
+- 有名サイトを調べてみる（以下は適当に検索したもの）
+  - <https://www.abuseipdb.com/>
