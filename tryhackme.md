@@ -53,3 +53,34 @@ crontab -e
 # 参照
 crontab -l
 ```
+
+## パッケージ管理
+
+```bash
+# SublimeTextインストールをしたい場合
+wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+# ファイル作成しリポジトリ情報を書き込む
+# /etc/apt/sources.list.d/sublime-text.list
+sudo apt update
+sudo apt install sublime-text
+
+# パーッケージ削除方法
+sudo add-apt-repository --remove [ppa:PPA_Name/ppa]
+sudo apt remove [software-name-here]
+```
+
+## Windows CMD
+
+```bash
+hostname
+whoami
+ipconfig
+# ヘルプ表示
+ipconfig /?
+# 画面クリア
+cls
+# プロトコル統計、ネットワーク接続表示
+netstat
+# net系コマンド
+net [user | localgroup | use | share | session]
+```
