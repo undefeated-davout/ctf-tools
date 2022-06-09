@@ -179,5 +179,5 @@ dig <domain> @<dns-server-ip>
   - -p-: 全ポート指定
 - --script: スクリプトスキャンを実行。Lua言語
 - -sn: ICMPネットワークスキャン（pingスイープ）
-  - nmap -sn 192.168.0.1-254
-  - nmap -sn 192.168.0.0/24
+  - nmap -sn 192.168.0.1-254（ハイフン）
+  - nmap -sn 192.168.0.0/24（CIDER表記）
