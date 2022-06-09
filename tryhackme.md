@@ -89,3 +89,9 @@ net [user | localgroup | use | share | session]
 
 - 有名サイトを調べてみる（以下は適当に検索したもの）
   - <https://www.abuseipdb.com/>
+
+## アクセス
+
+```bash
+nc [target IP] [PORT]
+```
