@@ -126,9 +126,7 @@ dig <domain> @<dns-server-ip>
 
 - リッスンしているポートを調べる
 
-```bash
-
-```
+### nmapオプション
 
 - スキャンタイプ
   - -sT: TCP
@@ -166,7 +164,8 @@ dig <domain> @<dns-server-ip>
   - ターゲットの許可なく使用しないこと
 - -T: -T5のようにタイミングテンプレートを指定
   - paranoid (0), sneaky (1), polite (2), normal (3), aggressive (4), insane (5)
-  - 被害妄想の（0）、卑劣な（1）、礼儀正しい（2）、通常の（3）、攻撃的な（4）、非常識な（5）
+  - 被害妄想の（0）、卑劣な（1）、礼儀正しい（2￼ ￼Search
+You can enter a progra）、通常の（3）、攻撃的な（4）、非常識な（5）
   - 詳細
     - 最初の2つはIDS回避用です。ポライトモードでは、スキャンの速度が低下し、使用する帯域幅とターゲットマシンのリソースが少なくなります。
     - 通常モードがデフォルトであるため、 -T3 は何もしません。
@@ -181,3 +180,46 @@ dig <domain> @<dns-server-ip>
 - -sn: ICMPネットワークスキャン（pingスイープ）
   - nmap -sn 192.168.0.1-254（ハイフン）
   - nmap -sn 192.168.0.0/24（CIDER表記）
+
+### Nmap Scripting Engine(NSE)
+
+- カテゴリ例
+  - safe: ターゲットに影響を与えません
+  - intrusive: 安全ではありません。ターゲットに影響を与える可能性があります
+  - vuln: 脆弱性をスキャンする
+  - exploit: 脆弱性を悪用しようとする
+  - auth: 実行中のサービスの認証をバイパスしようとします（たとえば、FTPサーバーに匿名でログインします）
+  - brute: サービスを実行するためのブルートフォース認証を試みます
+  - discovery: ネットワークに関する詳細情報について、実行中のサービスにクエリを実行してみてください（SNMPサーバーにクエリを実行するなど）。
+- スクリプトと引数
+  - スクリプトと引数の例 <https://nmap.org/nsedoc/>
+  - `<script-name>.<argument>`
+- 検索方法
+
+  ```bash
+  # インストール済みスクリプト検索
+  grep "ftp" /usr/share/nmap/scripts/script.db
+  ll /usr/share/nmap/scripts/*ftp*
+  # カテゴリ検索
+  grep "safe" /usr/share/nmap/scripts/script.db
+  ```
+
+- スクリプトインストール
+
+  ```bash
+  sudo wget -O /usr/share/nmap/scripts/<script-name>.nse https://svn.nmap.org/nmap/scripts/<script-name>.nse
+  ```
+
+### Nmapファイアウォール回避
+
+- -Pn: スキャン前にpingを送信しないようにする
+  - 時間がかかる可能性
+- -f: パケットを断片化する
+- `--mtu <number>`: -fより細かくパケットサイズを指定できる
+- `--scan-delay <time>ms`: パケット間隔を追加
+  - ネットワークが不安定なとき
+  - timeベースファイアウォール／IDSトリガー対策
+- --badsum: パケットの無効なチェックサムを生成
+  - TCP/IPスタックはドロップするが、ファイアウォールは自動的に応答する可能性があるので、ファイアウォール／IDSの存在を判別できる
+- --data-length: パケットの最後にランダムデータを追加する
+  - スキャンをいくらか目立たなくする（処理速度は遅くなる）
