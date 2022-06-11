@@ -265,3 +265,21 @@ sudo nmap -Pn --script=ftp-anon.nse <TARGET IP> -p 21
       - Port: start_tls
       - Protocol: http
       - Key FIle: .keyファイルのパス
+
+## Burp Suite
+
+### Proxyタブ
+
+- Options
+  - Intercept Client Responses
+    - And: URL: Is in target scope: scopeに追加されたURLをプロキシがインターセプトしないようにする
+  - Intercept Server Responses
+    - Intercept responses based on the following rules: ON
+      - 以下をON
+      - Or: Request: Was intercepted
+      - And: URL: Is in target scope
+  - Match and Replace: 正規表現で絞り込む
+
+### Burpテクニック
+
+- `Ctrl+U`: Intercept中に範囲選択した文字をURLエンコードする
