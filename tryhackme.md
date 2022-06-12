@@ -286,6 +286,9 @@ sudo nmap -Pn --script=ftp-anon.nse <TARGET IP> -p 21
 
 ## OWASP
 
+- Open Web Application Security Project
+  - セキュリティを向上させることを専門とした非営利団体
+
 ### OSコマンドインジェクション
 
 - [チートシート](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
@@ -331,3 +334,11 @@ sudo nmap -Pn --script=ftp-anon.nse <TARGET IP> -p 21
 <!DOCTYPE root [<!ENTITY read SYSTEM 'file:///etc/passwd'>]>
 <root>&read;</root>
 ```
+
+### IDOR(Insecure Direct Object Reference)
+
+- <https://example.com/bank?account_number=1234>が得られたとき、パラメータを手動でずらして試す
+
+### セキュリティ設定ミス
+
+- [セキュリティ設定ミスのOWASPトップ10](https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration.html)
