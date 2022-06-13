@@ -342,3 +342,9 @@ sudo nmap -Pn --script=ftp-anon.nse <TARGET IP> -p 21
 ### セキュリティ設定ミス
 
 - [セキュリティ設定ミスのOWASPトップ10](https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration.html)
+
+### XSS
+
+- Stored XSS
+- Reflected XSS
+- DOM-Based XSS
