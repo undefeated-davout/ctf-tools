@@ -432,3 +432,11 @@ sudo apt install seclists
 - [403 Error: Only .md and .pdf files are allowed!]エラー対策
   - <http://hostname/ftp/package.json.bak%2500.md>のように[%2500.md]でバイパスする
     - Poison Null Byte: %2500
+
+### XSS例
+
+```bash
+<iframe src="javascript:alert(`xss`)">
+
+<script>alert(`xss`)</script>
+```
