@@ -11,6 +11,10 @@
 - ハッシュクラック
   - <https://crackstation.net/>
 - [セキュリティ設定ミスのOWASPトップ10](https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration.html)
+- レインボークラック
+  - <https://hashes.com/en/decrypt/hash>
+- [パスワードプレフィックス検索ページ](https://hashcat.net/wiki/doku.php?id=example_hashes)
+- [ハッシュアナライザー](https://www.tunnelsup.com/hash-analyzer/)
 
 ## 隠しページを見つける
 
@@ -439,4 +443,32 @@ sudo apt install seclists
 <iframe src="javascript:alert(`xss`)">
 
 <script>alert(`xss`)</script>
+```
+
+## 暗号
+
+- [パスワードプレフィックス検索ページ](https://hashcat.net/wiki/doku.php?id=example_hashes)
+- hashcat
+  - --forceは使用しないこと。間違ったPWや誤スキップすることがある。
+- [ハッシュアナライザー](https://www.tunnelsup.com/hash-analyzer/)
+- /usr/share/wordlists/rockyou.txt.gz を解凍する
+  - gzip -d -k /usr/share/wordlists/rockyou.txt.gz
+    - /usr/share/wordlists/rockyou.txt が生成される
+
+|           Prefix            |                         Algorithm                          |
+| --------------------------- | ---------------------------------------------------------- |
+| $1$                         | md5crypt, used in Cisco stuff and older Linux/Unix systems |
+| $2$, $2a$, $2b$, $2x$, $2y$ | Bcrypt (Popular for web applications)                      |
+| $6$                         | sha512crypt (Default for most Linux/Unix systems)          |
+
+### ハッシュクラック手順
+
+```bash
+# bcryptの番号を取得（3200）
+hashcat -h | grep bcrypt
+# もしくは、https://hashcat.net/wiki/doku.php?id=example_hashes
+
+# result.txtに結果が記入される。末尾の":"のあとの文字列
+hashcat -m 3200 -a 0 -o ./result.txt ./hash.txt /usr/share/wordlists/rockyou.txt
+# cat ~/.local/share/hashcat/hashcat.potfile でも確認可（result.txtを指定しない場合）
 ```
