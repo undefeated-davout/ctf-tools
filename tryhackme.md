@@ -472,3 +472,41 @@ hashcat -h | grep bcrypt
 hashcat -m 3200 -a 0 -o ./result.txt ./hash.txt /usr/share/wordlists/rockyou.txt
 # cat ~/.local/share/hashcat/hashcat.potfile でも確認可（result.txtを指定しない場合）
 ```
+
+## John The Ripper
+
+- 一番人気はJumboJohn
+
+### ワードリスト
+
+- システム別のコレクション: <https://github.com/danielmiessler/SecLists>
+- /usr/share/wordlists/ ディレクトリ
+- rockyou.txt
+  - KaliLinuxのローカルから: tar xvzf /usr/share/wordlists/rockyou.txt.gz
+  - リポジトリから: <https://github.com/danielmiessler/SecLists/blob/master/Passwords/Leaked-Databases/rockyou.txt.tar.gz>
+
+### John実行
+
+```bash
+# 基本構文
+john [options] [path to file]
+
+# ワードリストあり
+john --wordlist=[path to wordlist] [path to file]
+# 例： john --wordlist=/usr/share/wordlists/rockyou.txt hash_to_crack.txt
+```
+
+### ハッシュの識別
+
+- <https://hashes.com/en/tools/hash_identifier>
+- <https://gitlab.com/kalilinux/packages/hash-identifier/-/tree/kali/master>
+  - `wget https://gitlab.com/kalilinux/packages/hash-identifier/-/raw/kali/master/hash-id.py`
+  - python3 hash-id.py [hash]
+
+```bash
+# クラック実行
+john --format=raw-md5 --wordlist=/usr/share/wordlists/rockyou.txt ./hash1.txt
+# 結果表示
+john --show --format=Raw-MD5 ./hash1.txt
+# 対応フォーマット一覧
+```
