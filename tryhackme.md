@@ -520,3 +520,70 @@ unshadow [path to passwd] [path to shadow]
 # 例
 unshadow ./password ./shadow > unshadow.txt
 ```
+
+### Single Crack Mode
+
+- Word Mangling: 辞書掲載の文字列を少しづつ変更して試す
+- GECOS: shadowやpasswdの:::の区切りの各フィールドの情報を取得してワードリストに追加
+
+```bash
+john --single --format=[format] [path to file]
+# 例
+john --single --format=raw-sha256 hashes.txt
+
+# Single Crack Modeでは、ハッシュの先頭にユーザ名を指定する
+# From:
+# 1efee03cdcb96d90ad48ccc7b8666033
+# To
+# mike:1efee03cdcb96d90ad48ccc7b8666033
+```
+
+### Custom Rules
+
+- /etc/john/john.conf で定義する
+- [List.Rules:THMRules]がカスタム定義用
+  - cAz"[0-9] [!£$%@]"
+    - 大文字
+    - 番号
+    - 記号
+
+```bash
+# [List.Rules:PoloPassword]
+# cAz"[0-9] [!£$%@]"
+
+john --wordlist=[path to wordlist] --rule=PoloPassword [path to file]
+```
+
+### パスワード保護されたzipファイルのクラッキング
+
+```bash
+zip2john [options] [zip file] > [output file]
+# 例
+# ハッシュを取得する
+zip2john secure.zip > zip_hash.txt
+# パスワードを解析する
+john --wordlist=/usr/share/wordlists/rockyou.txt zip_hash.txt
+# パスワードを聞かれるので入力する
+unzip secure.zip
+```
+
+### パスワード保護されたrarファイルのクラッキング
+
+```bash
+rar2john [rar file] > [output file]
+# 例
+rar2john secure.rar > rar_hash.txt
+john --wordlist=/usr/share/wordlists/rockyou.txt rar_hash.txt
+unrar e secure.rar
+```
+
+### sshキーのクラッキング
+
+```bash
+ssh2john [id_rsa private key file] > [output file]
+# 例
+# ハッシュを取得
+ssh2john idrsa.id_rsa > rsa_hash.txt
+# パスワード解析
+john --wordlist=/usr/share/wordlists/rockyou.txt rsa_hash.txt
+```
