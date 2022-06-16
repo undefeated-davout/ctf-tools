@@ -493,7 +493,8 @@ john [options] [path to file]
 
 # ワードリストあり
 john --wordlist=[path to wordlist] [path to file]
-# 例： john --wordlist=/usr/share/wordlists/rockyou.txt hash_to_crack.txt
+# 例
+john --wordlist=/usr/share/wordlists/rockyou.txt hash_to_crack.txt
 ```
 
 ### ハッシュの識別
@@ -502,6 +503,7 @@ john --wordlist=[path to wordlist] [path to file]
 - <https://gitlab.com/kalilinux/packages/hash-identifier/-/tree/kali/master>
   - `wget https://gitlab.com/kalilinux/packages/hash-identifier/-/raw/kali/master/hash-id.py`
   - python3 hash-id.py [hash]
+  - python ~/data/ctf-tools/tools/hash-id.py（本Privateリポジトリにコピーした）
 
 ```bash
 # クラック実行
@@ -509,4 +511,12 @@ john --format=raw-md5 --wordlist=/usr/share/wordlists/rockyou.txt ./hash1.txt
 # 結果表示
 john --show --format=Raw-MD5 ./hash1.txt
 # 対応フォーマット一覧
+```
+
+### /etc/shadow ハッシュクラッキング
+
+```bash
+unshadow [path to passwd] [path to shadow]
+# 例
+unshadow ./password ./shadow > unshadow.txt
 ```
