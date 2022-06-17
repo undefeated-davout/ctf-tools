@@ -587,3 +587,17 @@ ssh2john idrsa.id_rsa > rsa_hash.txt
 # パスワード解析
 john --wordlist=/usr/share/wordlists/rockyou.txt rsa_hash.txt
 ```
+
+## 暗号化
+
+- CTFでRSA課題に使用するツール
+  - <https://github.com/Ganapati/RsaCtfTool>
+  - <https://github.com/ius/rsatool>
+- 知っておくべき変数
+  - p: 大きな素数
+  - q: 同上
+  - m: メッセージ（プレーンテキスト）
+  - n: p*q
+  - e: nとeで公開鍵
+  - d: nとdで秘密鍵
+  - c: 暗号文（暗号化されたテキスト）
