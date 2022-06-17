@@ -601,3 +601,22 @@ john --wordlist=/usr/share/wordlists/rockyou.txt rsa_hash.txt
   - e: nとeで公開鍵
   - d: nとdで秘密鍵
   - c: 暗号文（暗号化されたテキスト）
+
+## GPG
+
+```bash
+# 秘密鍵読み込み
+gpg --import [secure key]
+# 復号
+gpg [gpg file]
+# 鍵リスト
+gpg --list-keys
+gpg --delete-secret-keys [pub 記載の40文字程度のキー]
+gpg --delete-keys [pub 記載の40文字程度のキー]
+```
+
+## 暗号化の推奨要件
+
+- 非対称暗号化: RSA-3072以上
+- 対称暗号化: AES-256以上
+- 近い将来、量子コンピュータによりRSAや楕円曲線暗号は高速に破られる
