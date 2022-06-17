@@ -620,3 +620,45 @@ gpg --delete-keys [pub 記載の40文字程度のキー]
 - 非対称暗号化: RSA-3072以上
 - 対称暗号化: AES-256以上
 - 近い将来、量子コンピュータによりRSAや楕円曲線暗号は高速に破られる
+
+## Metasploit
+
+### Metasploitの主要バージョン
+
+- Metasploit Pro: 商用。GUI
+- Metasploit Framework: CLI。OSS
+  - msfconsole
+  - Modules
+  - Tools
+
+### Metasploitの主要コンポーネント
+
+- Exploit: 脆弱性を突くコード
+- Vulnerability: 脆弱性
+- Payload: ターゲットシステムで実行されるコード
+
+### Msfconsole
+
+```bash
+msfconsole
+
+# EternalBlue（Windows用Exploit）
+use exploit/windows/smb/ms17_010_eternalblue
+# 使用中のコンテキストのオプションを表示
+show options
+# ペイロードリスト
+show payloads
+
+# コンテキストを抜ける
+back
+
+# コンテキストのモジュール詳細表示
+info
+# モジュールを指定して詳細表示
+info exploit/windows/smb/ms17_010_eternalblue
+
+# 関連モジュールを検索
+search ms17-010
+# 補助モジュールのみを検索
+search type:auxiliary telnet
+```
