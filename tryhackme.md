@@ -721,3 +721,33 @@ use auxiliary/scanner/http/http_version
 # SMBパスワード
 auxiliary/scanner/smb/smb_login
 ```
+
+### Metasploit DB
+
+```bash
+sudo systemctl start postgresql
+sudo msfdb init
+msfconsole
+db_status
+workspace
+workspace -a [workspace name] # 追加
+workspace -d [workspace name] # 削除
+workspace [workspace name] # ワークスペース切り替え
+
+# NmapスキャンがDBに保存される
+db_nmap -sV -p- [target IP]
+# ターゲットで実行されているホスト情報表示
+hosts
+# ターゲットで実行されているサービス情報表示
+services
+```
+
+```bash
+# ワークフロー
+use auxiliary/scanner/smb/smb_ms17_010
+hosts -R # db_nmapで保存された情報からRHOSTSをセットする
+
+# NetBIOSサービスを検索する
+services -S netbios
+# HTTP, FTP, SMB, SSH, RDP を検索するのがおすすめ
+```
