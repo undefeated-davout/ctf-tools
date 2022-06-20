@@ -980,3 +980,54 @@ gobuster dir -u [target IP] -w /usr/share/wordlists/dirbuster/directory-list-2.3
 #### vhostモード
 
 - dirモードとほぼ同じ
+
+## Hydra
+
+Hydra公式ページ: <https://en.kali.tools/?p=220>
+
+### 対応プロトコル
+
+Asterisk, AFP, Cisco AAA, Cisco auth, Cisco enable, CVS, Firebird, FTP,  HTTP-FORM-GET, HTTP-FORM-POST,
+HTTP-GET, HTTP-HEAD, HTTP-POST, HTTP-PROXY, HTTPS-FORM-GET, HTTPS-FORM-POST, HTTPS-GET, HTTPS-HEAD, HTTPS-POST,
+HTTP-Proxy, ICQ, IMAP, IRC, LDAP, MS-SQL, MYSQL, NCP, NNTP, Oracle Listener, Oracle SID,Oracle, PC-Anywhere,
+PCNFS, POP3, POSTGRES, RDP, Rexec, Rlogin, Rsh, RTSP, SAP/R3, SIP, SMB, SMTP, SMTP Enum, SNMP v1+v2+v3, SOCKS5,
+SSH (v1 and v2), SSHKEY, Subversion, Teamspeak (TS2), Telnet, VMware-Auth, VNC and XMPP
+
+### Hydra使い方
+
+#### FTP
+
+```bash
+hydra -l <username> -P <full path to pass> ftp://MACHINE_IP
+```
+
+#### SSH
+
+```bash
+# SSH時はスレッドは16→4と推奨値まで落とす
+hydra -l <username> -P <full path to pass> MACHINE_IP -t 4 ssh
+```
+
+- l: ユーザー名
+- -P: パスワードリストのファイルパス
+- -t: スレッド数（デフォルト16）
+
+#### Webフォーム投稿
+
+```bash
+# ログインページのURL、ログイン失敗時に含まれる文字列を確認する"incorrect"
+# 各種情報を指定して解析実行
+hydra -l <username> -P <wordlist> MACHINE_IP http-post-form "/login:username=^USER^&password=^PASS^:F=incorrect" -V
+# パスワードリスト例: /usr/share/wordlists/rockyou.txt
+```
+
+- -l: ユーザ名
+- -P: パスワードリストファイルパス
+- http-post-form: Form（POST）
+- /login: ログインページのURL
+- :username: Formのusernameフィールド
+- `^USER^`: Hydra側で入力するユーザ名
+- password: Formのpasswordフィールド
+- `^PASS^`: Hydrag側で入力するパスワード
+- F=incorrect: "incorrect"の文字列があれば失敗とみなす
+- -V: 詳細出力
