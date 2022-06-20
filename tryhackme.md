@@ -939,48 +939,6 @@ sqlmap -u [target URL] -D [DB name] --tables # テーブル名を取得
 sqlmap -u [target URL] -D [DB name] -T [Table name] --dump # テーブル内容を酒盗
 ```
 
-## Gobuster
-
-### Gobuster便利なフラグ
-
-| Flag |   Long Flag   |                 Description                  |
-| ---- | ------------- | -------------------------------------------- |
-| -t   | --threads     | 同時スレッド数（デフォルトは10）             |
-| -v   | --verbose     | 冗長出力                                     |
-| -z   | --no-progress | 進行状況を表示しない                         |
-| -q   | --quiet       | バナーやその他のノイズを印刷しないでください |
-| -o   | --output      | 結果を書き込む出力ファイル                   |
-
-#### dirモード
-
-| Flag |        Long Flag         |                           Description                           |
-| ---- | ------------------------ | --------------------------------------------------------------- |
-| -c   | --cookies                | リクエストに使用するCookie                                      |
-| -x   | --extensions             | 検索するファイル拡張子                                          |
-| -H   | --headers                | HTTPヘッダーを指定します, -H 'Header1: val1' -H 'Header2: val2' |
-| -k   | --no-tls-validation      | TLS証明書の検証をスキップする                                   |
-| -n   | --no-status              | ステータスコードを印刷しないでください                          |
-| -P   | --password               | Basic認証のパスワード                                           |
-| -s   | --status-codes           | 正のステータスコード                                            |
-| -b   | --status-codes-blacklist | 負のステータスコード                                            |
-| -U   | --username               | Basic認証のユーザー名                                           |
-
-```bash
-gobuster dir -u [target IP] -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
-```
-
-#### dnsモード
-
-| Flag |  Long Flag   |                                 Description                                 |
-| ---- | ------------ | --------------------------------------------------------------------------- |
-| -c   | --show-cname | CNAMEレコードを表示する（「-i」オプションと一緒に使用することはできません） |
-| -i   | --show-ips   | IPアドレスを表示する                                                        |
-| -r   | --resolver   | カスタムDNSサーバーを使用する（server.comまたはserver.com:portの形式）      |
-
-#### vhostモード
-
-- dirモードとほぼ同じ
-
 ## Hydra
 
 Hydra公式ページ: <https://en.kali.tools/?p=220>
@@ -1031,3 +989,45 @@ hydra -l <username> -P <wordlist> MACHINE_IP http-post-form "/login:username=^US
 - `^PASS^`: Hydrag側で入力するパスワード
 - F=incorrect: "incorrect"の文字列があれば失敗とみなす
 - -V: 詳細出力
+
+## Gobuster
+
+### Gobuster便利なフラグ
+
+| Flag |   Long Flag   |                 Description                  |
+| ---- | ------------- | -------------------------------------------- |
+| -t   | --threads     | 同時スレッド数（デフォルトは10）             |
+| -v   | --verbose     | 冗長出力                                     |
+| -z   | --no-progress | 進行状況を表示しない                         |
+| -q   | --quiet       | バナーやその他のノイズを印刷しないでください |
+| -o   | --output      | 結果を書き込む出力ファイル                   |
+
+#### dirモード
+
+| Flag |        Long Flag         |                           Description                           |
+| ---- | ------------------------ | --------------------------------------------------------------- |
+| -c   | --cookies                | リクエストに使用するCookie                                      |
+| -x   | --extensions             | 検索するファイル拡張子                                          |
+| -H   | --headers                | HTTPヘッダーを指定します, -H 'Header1: val1' -H 'Header2: val2' |
+| -k   | --no-tls-validation      | TLS証明書の検証をスキップする                                   |
+| -n   | --no-status              | ステータスコードを印刷しないでください                          |
+| -P   | --password               | Basic認証のパスワード                                           |
+| -s   | --status-codes           | 正のステータスコード                                            |
+| -b   | --status-codes-blacklist | 負のステータスコード                                            |
+| -U   | --username               | Basic認証のユーザー名                                           |
+
+```bash
+gobuster dir -u [target IP] -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+```
+
+#### dnsモード
+
+| Flag |  Long Flag   |                                 Description                                 |
+| ---- | ------------ | --------------------------------------------------------------------------- |
+| -c   | --show-cname | CNAMEレコードを表示する（「-i」オプションと一緒に使用することはできません） |
+| -i   | --show-ips   | IPアドレスを表示する                                                        |
+| -r   | --resolver   | カスタムDNSサーバーを使用する（server.comまたはserver.com:portの形式）      |
+
+#### vhostモード
+
+- dirモードとほぼ同じ
