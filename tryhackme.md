@@ -990,6 +990,29 @@ hydra -l <username> -P <wordlist> MACHINE_IP http-post-form "/login:username=^US
 - F=incorrect: "incorrect"の文字列があれば失敗とみなす
 - -V: 詳細出力
 
+## Wi-Fiハッキング
+
+- SSID：接続しようとしたときに表示されるネットワークの「名前」
+- ESSID：通常はより大きなネットワークを形成する複数のアクセスポイント（会社のオフィスなど）に適用される可能性のあるSSID。Aircrackの場合、通常、攻撃しているネットワークを指します。
+- BSSID：アクセスポイントのMAC（ハードウェア）アドレス
+- WPA2-PSK：すべての人に同じパスワードを提供して接続するWifiネットワーク
+- WPA2-EAP：RADIUSサーバーに送信されるユーザー名とパスワードを提供することによって認証されるWifiネットワーク。
+- RADIUS：Wi-Fiだけでなく、クライアントを認証するためのサーバー。
+
+### aircrack-ng
+
+```bash
+# wlan0をモニターモードにする。インターフェイス名は"wlan0mon"になる
+sudo airmon-ng start wlan0
+# 他プロセスがそのネットワークアダプタを使用しようとしている場合
+airmon -ng check kill
+# キャプチャ作成
+airodump -ng
+
+# パスワードクラック例
+aircrack-ng -b [BSSID値] -w /usr/share/wordlists/rockyou.txt [.capファイルパス]
+```
+
 ## Gobuster
 
 ### Gobuster便利なフラグ
@@ -1017,7 +1040,9 @@ hydra -l <username> -P <wordlist> MACHINE_IP http-post-form "/login:username=^US
 | -U   | --username               | Basic認証のユーザー名                                           |
 
 ```bash
-gobuster dir -u [target IP] -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+gobuster dir -u [target URL] -w [ワードリストのパス]
+# 注意: プロトコルも指定する
+gobuster dir -u http://example.com/products -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
 ```
 
 #### dnsモード
@@ -1031,26 +1056,3 @@ gobuster dir -u [target IP] -w /usr/share/wordlists/dirbuster/directory-list-2.3
 #### vhostモード
 
 - dirモードとほぼ同じ
-
-## Wi-Fiハッキング
-
-- SSID：接続しようとしたときに表示されるネットワークの「名前」
-- ESSID：通常はより大きなネットワークを形成する複数のアクセスポイント（会社のオフィスなど）に適用される可能性のあるSSID。Aircrackの場合、通常、攻撃しているネットワークを指します。
-- BSSID：アクセスポイントのMAC（ハードウェア）アドレス
-- WPA2-PSK：すべての人に同じパスワードを提供して接続するWifiネットワーク
-- WPA2-EAP：RADIUSサーバーに送信されるユーザー名とパスワードを提供することによって認証されるWifiネットワーク。
-- RADIUS：Wi-Fiだけでなく、クライアントを認証するためのサーバー。
-
-### aircrack-ng
-
-```bash
-# wlan0をモニターモードにする。インターフェイス名は"wlan0mon"になる
-sudo airmon-ng start wlan0
-# 他プロセスがそのネットワークアダプタを使用しようとしている場合
-airmon -ng check kill
-# キャプチャ作成
-airodump -ng
-
-# パスワードクラック例
-aircrack-ng -b [BSSID値] -w /usr/share/wordlists/rockyou.txt [.capファイルパス]
-```
