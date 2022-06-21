@@ -1053,6 +1053,28 @@ gobuster dir -u http://example.com/products -w /usr/share/wordlists/dirbuster/di
 | -i   | --show-ips   | IPアドレスを表示する                                                        |
 | -r   | --resolver   | カスタムDNSサーバーを使用する（server.comまたはserver.com:portの形式）      |
 
+```bash
+gobuster dns -d mydomain.thm -w /usr/share/wordlists/SecLists/Discovery/DNS/subdomains-top1million-5000.txt
+```
+
 #### vhostモード
 
 - dirモードとほぼ同じ
+
+```bash
+gobuster vhost -u http://example.com -w /usr/share/wordlists/SecLists/Discovery/DNS/subdomains-top1million-5000.txt
+```
+
+#### 有用なワードリスト
+
+- /usr/share/wordlists/dirbuster/directory-list-2.3-*.txt
+- /usr/share/wordlists/dirbuster/directory-list-1.0.txt
+- /usr/share/wordlists/dirb/big.txt
+- /usr/share/wordlists/dirb/common.txt
+- /usr/share/wordlists/dirb/small.txt
+- /usr/share/wordlists/dirb/extensions_common.txt: ファイルのファジングに便利
+
+```bash
+# 標準以外のリスト（https://github.com/danielmiessler/SecLists）
+sudo apt install seclists
+```
