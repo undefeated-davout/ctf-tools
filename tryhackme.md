@@ -1083,3 +1083,31 @@ sudo apt install seclists
 # 例: 仮想ホスト（サブドメイン）[products, learning]ごとにファイル探索
 for vhost in products learning; do gobuster dir -u http://${vhost}.[ドメイン名] -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt -x php,txt -t50 ; done
 ```
+
+## WPScan
+
+```bash
+# DB更新
+wpscan --update
+
+# テーマ列挙
+wpscan --url [target URL] --enumerate t
+# プラグイン列挙
+wpscan --url [target URL] --enumerate p
+# ユーザ列挙
+wpscan --url [target URL] --enumerate u
+# 脆弱なプラグイン列挙
+wpscan --url [target URL] --enumerate u
+# パスワード攻撃
+wpscan –-url [target URL] –-passwords [パスワードファイルパス] –-usernames [ユーザ名]
+```
+
+### WAF対策の攻撃性調整
+
+|    flag    |                                           説明                                            |            完全な例            |
+| ---------- | ----------------------------------------------------------------------------------------- | ------------------------------ |
+| p          | プラグインを列挙する                                                                      | --enumerate p                  |
+| t          | テーマを列挙する                                                                          | --enumerate t                  |
+| u          | ユーザー名を列挙する                                                                      | --enumerate -u                 |
+| v          | WPVulnDBを使用して、脆弱性を相互参照します。コマンドの例は脆弱なプラグインを探します（p） | --enumerate vp                 |
+| aggressive | これは、WPScanが使用する攻撃性プロファイルです。                                          | --plugins-detection aggressive |
