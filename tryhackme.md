@@ -1042,7 +1042,7 @@ aircrack-ng -b [BSSID値] -w /usr/share/wordlists/rockyou.txt [.capファイル�
 ```bash
 gobuster dir -u [target URL] -w [ワードリストのパス]
 # 注意: プロトコルも指定する
-gobuster dir -u http://example.com/products -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+gobuster dir -u http://example.com/products -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -t 64
 ```
 
 #### dnsモード
@@ -1054,7 +1054,7 @@ gobuster dir -u http://example.com/products -w /usr/share/wordlists/dirbuster/di
 | -r   | --resolver   | カスタムDNSサーバーを使用する（server.comまたはserver.com:portの形式）      |
 
 ```bash
-gobuster dns -d mydomain.thm -w /usr/share/wordlists/SecLists/Discovery/DNS/subdomains-top1million-5000.txt
+gobuster dns -d mydomain.thm -w /usr/share/wordlists/SecLists/Discovery/DNS/subdomains-top1million-5000.txt -t 64
 ```
 
 #### vhostモード
@@ -1062,7 +1062,7 @@ gobuster dns -d mydomain.thm -w /usr/share/wordlists/SecLists/Discovery/DNS/subd
 - dirモードとほぼ同じ
 
 ```bash
-gobuster vhost -u http://example.com -w /usr/share/wordlists/SecLists/Discovery/DNS/subdomains-top1million-5000.txt
+gobuster vhost -u http://example.com -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -t 64
 ```
 
 #### 有用なワードリスト
@@ -1077,4 +1077,9 @@ gobuster vhost -u http://example.com -w /usr/share/wordlists/SecLists/Discovery/
 ```bash
 # 標準以外のリスト（https://github.com/danielmiessler/SecLists）
 sudo apt install seclists
+```
+
+```bash
+# 例: 仮想ホスト（サブドメイン）[products, learning]ごとにファイル探索
+for vhost in products learning; do gobuster dir -u http://${vhost}.[ドメイン名] -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt -x php,txt -t50 ; done
 ```
