@@ -1121,7 +1121,7 @@ wpscan –-url [target URL] –-passwords [パスワードファイルパス] �
 # 基本
 nikto -h vulnerable_ip
 
-# 複数ホストをスキャン
+# 複数ホストをスキャン（-oGフラグでNiktoに読みやすい形式に変換している）
 nmap -p80 172.16.0.0/24 -oG - | nikto -h -
 
 # 複数ポートをスキャン
