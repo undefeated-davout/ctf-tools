@@ -1262,3 +1262,8 @@ run
 workspaces list
 workspaces remove [ワークスペース名]
 ```
+
+## Maltego
+
+- OSINTツール。マインドマップで表示される。
+- <https://www.maltego.com/>
