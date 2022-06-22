@@ -1176,3 +1176,89 @@ nikto -h 10.10.10.1 -Plugin apacheusers
 # 例
 nikto -h http://ip_address -o report.html
 ```
+
+## レッドチーム偵察
+
+### 組み込みツール
+
+- whois
+- dig, nslookup, host
+- traceroute
+
+### 高度な検索
+
+ |           記号/構文            |                           関数                           |
+ | ------------------------------ | -------------------------------------------------------- |
+ | "search phrase"                | 正確な検索フレーズで結果を検索                           |
+ | OSINT filetype:pdf             | pdf,doc,docx,ppt,pptx,xls,xlsx                           |
+ | salary site:blog.tryhackme.com | 検索結果を特定のサイトに限定します。                     |
+ | pentest -site:example.com      | 結果から特定のサイトを除外する                           |
+ | walkthrough intitle:TryHackMe  | ページタイトルに特定の用語が含まれるページを検索します。 |
+ | challenge inurl:tryhackme      | ページURLで特定の用語を含むページを検索します。          |
+
+```bash
+# Nginxログ
+intitle:"index of" "nginx.log"
+# ユーザ名を含むファイル
+intitle:"index of" "contacts.txt"
+# 秘密情報（RSA鍵など）
+inurl:/certs/server.key
+# 脆弱なファイル
+intitle:"index of" "*.php"
+# 脆弱なサーバ
+intext:"user name" intext:"orion core" -solarwinds.com
+# エラーログ
+intitle:"index of" errors.log
+```
+
+### 専門的な検索
+
+- [ViewDNS.info](https://viewdns.info/)
+  - 逆Lookup。ドメイン名から同じIPを検索する。共有サーバを見つける
+- [Threat Intelligence Platform（脅威インテリジェンスプラットフォーム）](https://threatintelligenceplatform.com/)
+  - マルウェアチェックからWHOISおよびDNSクエリまでの一連のテスト
+- [Censys Search](https://search.censys.io/)
+  - IPアドレスとドメインに関する多くの情報
+- [Shodan](https://www.shodan.io/)
+  - whois情報やポートなど。アカウント登録が必要
+
+### Recon-ng
+
+```bash
+# ワークスペース作成
+recon-ng -w [ワークスペース名]
+# DBの用意
+db insert domains
+# domain (TEXT): ←ドメイン名を入力
+# notes (TEXT): ←空文字のままEnter
+
+# "domeins-"モジュールを検索
+marketplace search domains-
+```
+
+- マーケットプレイス例
+  - marketplace search: KEYWORDキーワードで利用可能なモジュールを検索します。
+  - marketplace info: MODULE問題のモジュールに関する情報を提供します。
+  - marketplace install: MODULE指定されたモジュールをRecon-ngにインストールします。
+  - marketplace remove: MODULE指定されたモジュールをアンインストールします。
+
+```bash
+# モジュールをインストール
+marketplace install google_site_web
+# インストール済みモジュール表示
+modules search
+# モジュールをロード
+modules load google_site_web
+# ロードされたモジュールに設定できるオプション一覧
+options list
+# オプション値をセット
+options set <option> <value>
+# 実行
+run
+```
+
+```bash
+# recon-ngに入っている状態で実行
+workspaces list
+workspaces remove [ワークスペース名]
+```
