@@ -368,3 +368,37 @@ echo $HISTSIZE
 # 履歴をクリア
 > ~/.bash_history
 ```
+
+## Netcatを用いた各種通信
+
+### ファイル転送
+
+```bash
+# Windowsg側
+C:\Work\nc111nt\nc.exe -lvp 4444 < in.txt
+
+# ホスト側
+nc [target IP] 4444 > out
+
+
+# ターゲットのbashが破壊されている場合は転送したshellで調査
+# ホスト側
+nc -lvp 4444 < /bin/bash
+
+# ターゲット（Linux）側
+nc [host IP] 4444 > new_bash
+```
+
+### ロギング
+
+```bash
+# ホスト側でログを監視
+nc -lp 9999 >> log.txt
+tail -f log.txt
+
+# ターゲット端末から送信したい内容を転送
+nc [host IP] 9999 < in.txt
+
+# コマンド結果を転送
+date | nc -q 1 [host IP] 9999
+```
