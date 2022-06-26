@@ -438,3 +438,20 @@ xxd traffic.bin
 
 ### Wiresharkでnmap結果を解析
 
+```bash
+# TCPフルコネクトスキャン
+nmap -sT -p 445 [target IP]
+# TCP SYNスキャン（サービスのログに記録されない）
+sudo nmap -sS -p 445 [target IP]
+# UDPスキャン
+sudo nmap -sU -p 53 [target IP]
+# Pingスキャン（ping送信するだけ。範囲指定で使う）
+nmap -sP -Pn 10.0.0.101
+nmap -sP 10.0.0.102 --send-ip
+# FINスキャン
+sudo nmap -sF -p 21 10.0.0.101
+# Xmasスキャン
+sudo nmap -sX -p 21 10.0.0.101
+# Nullスキャン
+sudo nmap -sN -p 21 10.0.0.101
+```
