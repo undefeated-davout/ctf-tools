@@ -402,3 +402,39 @@ nc [host IP] 9999 < in.txt
 # コマンド結果を転送
 date | nc -q 1 [host IP] 9999
 ```
+
+## 有線LANハッキング
+
+### Wireshark
+
+```bash
+# フィルター
+http
+http.request.method == "GET"
+```
+
+### NetworkMiner
+
+<https://www.netresec.com/index.ashx?page=NetworkMiner>
+
+### Xplico
+
+- 画像やメール解析が得意なツール
+
+```bash
+sudo apt install xplico
+service apache2 restart
+/etc/init.d/xplico start
+
+# http://localhost:9876/ にアクセス
+```
+
+### ダンプツール
+
+```bash
+# RAW形式でtraffic.binを保存してから
+xxd traffic.bin
+```
+
+### Wiresharkでnmap結果を解析
+
