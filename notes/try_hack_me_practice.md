@@ -128,3 +128,21 @@ strings {target file}
 ```bash
 hydra ssh://{target IP} -L {usernames file} -P /usr/share/wordlists/rockyou.txt
 ```
+
+## Crack the hash
+
+- just use <https://crackstation.net/>
+
+```bash
+# resolve "hashcat mode"
+hashid -m "{escaped hash}"
+# Analyzing '~~~'
+# [+] Blowfish(OpenBSD) [Hashcat Mode: 3200]
+# [+] Woltlab Burning Board 4.x 
+# [+] bcrypt [Hashcat Mode: 3200] ← use this value "3200"
+
+# create 4 char pw list
+cat /usr/share/wordlists/rockyou.txt | awk ' {if(length($0) == 4) print $0 }' > ./4char_pw.txt
+# resolve pw
+hashcat -m 3200 "{escaped hash}" ./4char_pw.txt
+```
