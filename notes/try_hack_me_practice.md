@@ -113,3 +113,12 @@ ftp {target IP}
 # -m: hash type ... 10, 20, ... (https://hashcat.net/wiki/doku.php?id=example_hashes)
 hashcat -O -a 0 -m 20 {pw hash}:{salt} /usr/share/wordlists/rockyou.txt
 ```
+
+## OhSINT
+
+```bash
+# show exif info
+exiftool {target file}
+# show string info
+strings {target file}
+```
