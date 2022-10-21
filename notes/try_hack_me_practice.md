@@ -122,3 +122,9 @@ exiftool {target file}
 # show string info
 strings {target file}
 ```
+
+## Bounty Hacker
+
+```bash
+hydra ssh://{target IP} -L {usernames file} -P /usr/share/wordlists/rockyou.txt
+```
